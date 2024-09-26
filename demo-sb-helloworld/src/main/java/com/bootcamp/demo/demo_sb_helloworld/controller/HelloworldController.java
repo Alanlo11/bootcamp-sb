@@ -8,10 +8,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class HelloworldController {
 
+  // 127.0.0.1:8080/v1/hello
   // !!! Java object.greeting()
+  // ctrl C
   @GetMapping(value = "/v1/hello")
   public String greeting(){
-    return "Hello World";
+    System.out.println("this is greeting...");
+    return "Hello World!!!";
+  }
+
+
+  @GetMapping(value = "/v1/goodbye") // path cannot be duplicated
+  public String goodbye(){
+    return "Goodbye";
   }
   
 }

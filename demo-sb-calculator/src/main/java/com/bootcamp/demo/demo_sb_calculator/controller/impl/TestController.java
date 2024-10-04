@@ -30,6 +30,6 @@ public class TestController {
 
   @GetMapping(value = "/test")
   public Book getBook(){
-    return bookController.getBook(99, 100.9); // NPE? 唔可以比呢個情況發生，所以有呢個
+    return bookController.getBook(99, 100.9); // NPE? 唔可以比呢個情況發生，所以有呢個Spring
   };
 }

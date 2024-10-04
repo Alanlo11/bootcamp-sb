@@ -1,10 +1,10 @@
-package com.bootcamp.demo.demo_sb_calculator;
+package com.bootcamp.demo.demo_restapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest // pretend server start
-class DemoSbCalculatorApplicationTests {
+@SpringBootTest
+class DemoRestapiApplicationTests {
 
 	@Test
 	void contextLoads() {

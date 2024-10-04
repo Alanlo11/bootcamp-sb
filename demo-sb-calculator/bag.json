@@ -1,20 +1,20 @@
 {
   "books": [
-  {
-  "id": 1,
-  "price": 10.3,
-  "strings": [
-  "abc",
-  "def"
-  ]
-  },
-  {
-  "id": 2,
-  "price": 99.9,
-  "strings": [
-  "ijk"
-  ]
-  }
+    {
+      "id": 1,
+      "price": 10.3,
+      "strings": [
+        "abc",
+        "def"
+      ]
+    },
+    {
+      "id": 2,
+      "price": 99.9,
+      "strings": [
+        "ijk"
+      ]
+    }
   ],
   "color": "RED"
-  }
+}

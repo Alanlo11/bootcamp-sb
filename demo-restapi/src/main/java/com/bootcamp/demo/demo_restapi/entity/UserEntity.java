@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity implements Serializable {
   @Id // Primary Key
   @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment(自動遞增+1)
+  
   private Long id;
   private String name;
   private String username;

@@ -1,6 +1,5 @@
 package com.bootcamp.demo.demo_restapi.model;
 
-import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import lombok.Getter;
 import lombok.ToString;
 

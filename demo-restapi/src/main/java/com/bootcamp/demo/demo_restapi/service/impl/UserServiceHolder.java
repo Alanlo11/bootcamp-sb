@@ -73,4 +73,17 @@ public class UserServiceHolder implements UserService {
     // System.out.println("users=" + Arrays.toString(users));
     return users;
   }
+
+  @Override
+  public User getUsers1(Integer id){
+    User[] temp = getUsers();
+    for (User user : temp) {
+      if (id.equals(user.getId())) {
+        System.out.println(user);
+        return user;
+      }
+    }
+    return new User();
+  }
+  
 }

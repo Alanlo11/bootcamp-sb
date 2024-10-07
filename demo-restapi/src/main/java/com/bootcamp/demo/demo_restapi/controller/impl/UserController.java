@@ -15,4 +15,10 @@ public class UserController implements UserOperation {
   public User[] getUsers() {
     return userService.getUsers();
   }
+
+  @Override
+  public User getUsers1(Integer id){
+    return userService.getUsers1(id);
+  }
+
 }

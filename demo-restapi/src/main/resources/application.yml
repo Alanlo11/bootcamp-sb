@@ -15,7 +15,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop # create-drop,update
+      ddl-auto: update # create-drop,update,
       # driverClassName: "com.mysql.jdbc.Driver"
       # url: "jdbc:mysql://localhost:3306/bc2405p_db"
       # dialect: "org.hibernate.dialect.MySQL8Dialect"

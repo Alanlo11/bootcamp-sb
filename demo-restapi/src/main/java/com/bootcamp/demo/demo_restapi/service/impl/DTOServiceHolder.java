@@ -1,6 +1,5 @@
 package com.bootcamp.demo.demo_restapi.service.impl;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,28 +24,26 @@ public class DTOServiceHolder implements DTOService{
   @Autowired
   private Mapper mapper;
 
-
   @Override
-  public UserPostDTO getUserPostDTOs(String userid,String id){
-    User[] user = userService.getUsers();
+  public UserPostDTO getUserPostDTOs(String userid,String postid){
+    User user = userService.getUsers(userid);
     Post[] post = postService.getPosts();
-    UserPostDTO dto = new UserPostDTO();
-    List<PostDTO> ddd = new LinkedList<>();
-    for(User u : user){
-      if(u.getId().equals(Integer.valueOf(userid))) {
-      dto.setUserid(Long.valueOf(u.getId()));
-      dto.setUsername(u.getName());
-      dto.setUseremail(u.getEmail());
-        }
-      }
+    List<PostDTO> list = new LinkedList<>();
+    UserPostDTO userPostDTO = mapper.getUserPostDTO(user);
+
     for (Post p : post) {
-      if (p.getId().equals(Integer.valueOf(id))) {
-        ddd.add(new PostDTO(Long.valueOf(p.getUserId()),Long.valueOf(p.getId()),p.getTitle(),p.getBody()));
-        dto.setPostDTO(ddd);
-        System.out.println(ddd.toString());
+      if (Integer.valueOf(postid).equals(Integer.valueOf(0))) {
+        list.add(mapper.getPostDTO(p));
+      } else {
+      if (p.getId().equals(Integer.valueOf(postid))) {
+        list.add(mapper.getPostDTO(p));
+        System.out.println("DTO=" + list.toString());
+        break;
       }
     }
-      return dto;
+  }
+  userPostDTO.setPostDTO(list);
+      return userPostDTO;
   }
 
 }

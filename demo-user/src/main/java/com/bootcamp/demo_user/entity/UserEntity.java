@@ -1,7 +1,5 @@
-package com.bootcamp.demo.demo_restapi.entity;
+package com.bootcamp.demo_user.entity;
 
-import java.io.Serializable;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,20 +9,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-@Table(name = "Posts")
-@Builder
+@Table(name = "users")
+@Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class PostEntity implements Serializable{
+@Builder
+public class UserEntity{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  
-  @Column(name = "uuserid")
-  private Integer userId;
-  private String title;
-  private String body;
+  private Integer id;
+
+  private String name;
+  private String username;
+  private String email;
+  private String phone;
+  private String website;
 }

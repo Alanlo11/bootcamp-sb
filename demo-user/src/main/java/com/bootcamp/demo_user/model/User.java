@@ -1,4 +1,4 @@
-package com.bootcamp.demo.demo_restapi.model;
+package com.bootcamp.demo_user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,13 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-// This class is designed for Serialization (JSON -> Java Object) ONLY.
-// So, only getter is required
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
   private Integer id;
   private String name;
@@ -23,7 +21,6 @@ public class User {
   private String website;
   private Company company;
 
-  // One to One
   @Getter
   @ToString
   public class Address {
@@ -35,22 +32,19 @@ public class User {
 
     @Getter
     @ToString
-    public class Geo {
+    public class Geo{
       private String lat;
       private String lng;
     }
   }
 
-  // One to One
   @Getter
   @ToString
-  public class Company {
+  public class Company{
     private String name;
     private String catchPhrase;
     private String bs;
   }
 
-  // public static UserEntity convert(User user){
-  //   return new UserEntity(user.getId(),user.getName(),user.getUsername(),user.getEmail(),user.getPhone(),user.getWebsite());
-  // }
+
 }

@@ -5,21 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.bootcamp.demo.demo_restapi.bootcamp.Scheme;
-import com.bootcamp.demo.demo_restapi.bootcamp.UrlManager;
+import com.bootcamp.demo.demo_restapi.infra.Scheme;
+import com.bootcamp.demo.demo_restapi.infra.UrlManager;
 import com.bootcamp.demo.demo_restapi.entity.PostEntity;
-import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_restapi.model.Post;
-import com.bootcamp.demo.demo_restapi.model.User;
 import com.bootcamp.demo.demo_restapi.model.mapper.Mapper;
 import com.bootcamp.demo.demo_restapi.repository.PostRepository;
-import com.bootcamp.demo.demo_restapi.repository.UserRepository;
 import com.bootcamp.demo.demo_restapi.service.PostService;
 
 @Service
 public class PostSerivceHolder implements PostService{
 
-   @Value("${api.url.domain}")
+  @Value("${api.url.domain}")
   private String domain;
 
   @Autowired
@@ -58,12 +55,10 @@ public class PostSerivceHolder implements PostService{
 
   @Override
   public Post getPost(String id){
-    Post[] temp = getPosts();
-      for (Post p : temp) {
-        if (Integer.valueOf(id).equals(p.getId()))
-          return p;
-        }
-        return new Post();
+    return Arrays.stream(this.getPosts())
+    .filter(post -> post.getId() == Integer.valueOf(id))
+    .findFirst()
+    .get();
   }
 
   // @Override
@@ -79,6 +74,11 @@ public class PostSerivceHolder implements PostService{
   //     return "Give me a number";
   //   }
   //   return new Post().toString();
+  // }
+
+  // @Override
+  // public List<PostDTO> getAllPostsByUserId(Long userID){
+
   // }
 
 }

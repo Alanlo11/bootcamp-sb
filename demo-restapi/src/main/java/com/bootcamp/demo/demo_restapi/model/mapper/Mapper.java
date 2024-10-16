@@ -21,8 +21,17 @@ public class Mapper {
     .email(user.getEmail())
     .phone(user.getPhone())
     .website(user.getWebsite())
-    .dummy(String.valueOf(""))
     .build();
+  }
+  
+  public User map(UserEntity userEntity) {
+    return User.builder()//
+        .name(userEntity.getName())//
+        .username(userEntity.getUsername())//
+        .email(userEntity.getEmail())//
+        .phone(userEntity.getPhone())//
+        .website(userEntity.getWebsite())//
+        .build();
   }
 
   public PostEntity map(Post post){
@@ -33,7 +42,7 @@ public class Mapper {
     .build();
   }
 
-  public UserPostDTO map(User user, Post post){
+  public UserPostDTO getUserPostDTO(User user){
     return UserPostDTO.builder()
     .userid(Long.valueOf(user.getId()))
     .username(user.getName())
@@ -42,7 +51,7 @@ public class Mapper {
     .build();
   }
 
-  public PostDTO map1(Post post){
+  public PostDTO getPostDTO(Post post){
     return PostDTO.builder()
     .userId(Long.valueOf(post.getUserId()))
     .id(Long.valueOf(post.getId()))
@@ -50,4 +59,5 @@ public class Mapper {
     .body(post.getBody())
     .build();
   }
+
 }

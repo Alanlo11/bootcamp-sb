@@ -1,8 +1,11 @@
 package com.bootcamp.demo.demo_restapi.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.demo.demo_restapi.controller.PostOperation;
+import com.bootcamp.demo.demo_restapi.model.NewPost;
 import com.bootcamp.demo.demo_restapi.model.Post;
 import com.bootcamp.demo.demo_restapi.service.PostService;
 
@@ -20,4 +23,9 @@ public class PostController implements PostOperation{
   public Post getPost(String id){
     return postService.getPost(id);
   }
+
+  // @Override
+  // public Post createNewUser(String userID ,NewPost newPost){
+    
+  // }
 }

@@ -20,16 +20,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserEntity implements Serializable {
   @Id // Primary Key
   @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment(自動遞增+1)
-  
-  private Long id;
-  private String name;
+  private Long id; // Database -> BIGINT 
+
+  private String name; // column
   private String username;
+  
   @Column(name = "useremail")
   private String email;
   private String phone;
   private String website;
-  private String dummy;
+  // private String dummy;
 }

@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+api:
+  url:
+    domain: "jsonplaceholder.typicode.com"
+    endpoint: "/users"
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/testing"
+    username: postgres
+    password: admin1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

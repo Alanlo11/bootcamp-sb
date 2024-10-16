@@ -1,4 +1,4 @@
-package com.bootcamp.demo.demo_restapi.bootcamp;
+package com.bootcamp.demo.demo_restapi.infra;
 
 import lombok.Getter;
 

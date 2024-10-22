@@ -1,7 +1,10 @@
 package com.bootcamp.demo.demo_restapi.exception;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import com.bootcamp.demo.demo_restapi.infra.GeneralResponse;
 
 // 1. -> Method A -> Method B -> Method C -> return object to B -> return object to A
 // 2. -> Method A -> Method B -> Method C -> throw exception -> B handle exception ...
@@ -16,6 +19,23 @@ public class GlobalExceptionHandler {
     return ErrorResponse.builder()
     .code(e.getCode())
     .message(e.getMessage())
+    .build();
+  }
+
+  @ExceptionHandler(UserNotExistException.class)
+  public ErrorResponse userNotExistException(UserNotExistException e){
+    return ErrorResponse.builder()
+    .code(e.getCode())
+    .message(e.getMessage())
+    .build();
+  }
+
+  @ExceptionHandler(BusinessException.class)
+  public GeneralResponse<Object> exceptionHandler(Exception e) {
+    return GeneralResponse.<Object>builder()
+    .code("900000")
+    .message("Fail.")
+    .data(new ArrayList<>())
     .build();
   }
 

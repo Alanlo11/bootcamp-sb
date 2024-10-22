@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.demo.demo_restapi.controller.UserOperation;
@@ -57,6 +58,14 @@ public class UserController implements UserOperation {
       this.userService.deleteById(id);
   }
 
-  
+  @Override
+  public User modifyUser(String userid, UserRequest userRequest){
+    return userService.modifyUser(userid, userRequest);
+  }
+
+  @Override
+  public User updateEmail(String userid, String email) {
+    return userService.updateEmail(userid, email);
+  }
 
 }

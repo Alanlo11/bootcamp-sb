@@ -56,11 +56,12 @@ public class PostSerivceHolder implements PostService{
   @Override
   public Post getPost(String id){
     return Arrays.stream(this.getPosts())
-    .filter(post -> post.getId() == Integer.valueOf(id))
+    .filter(post -> post.getId().equals(Integer.valueOf(id)))
     .findFirst()
     .get();
   }
 
+  
   // @Override
   // public String getPost(String id){
   //   Post[] temp = getPosts();

@@ -23,7 +23,7 @@ public class PostController implements PostOperation{
   public Post getPost(String id){
     return postService.getPost(id);
   }
-
+  
   // @Override
   // public Post createNewUser(String userID ,NewPost newPost){
     

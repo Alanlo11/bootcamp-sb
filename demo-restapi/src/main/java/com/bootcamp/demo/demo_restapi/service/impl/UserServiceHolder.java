@@ -12,7 +12,9 @@ import com.bootcamp.demo.demo_restapi.infra.UrlManager;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_restapi.exception.BusinessException;
 import com.bootcamp.demo.demo_restapi.exception.ErrorCode;
+import com.bootcamp.demo.demo_restapi.exception.UserNotExistException;
 import com.bootcamp.demo.demo_restapi.model.User;
+import com.bootcamp.demo.demo_restapi.model.UserRequest;
 import com.bootcamp.demo.demo_restapi.model.mapper.Mapper;
 import com.bootcamp.demo.demo_restapi.repository.UserRepository;
 import com.bootcamp.demo.demo_restapi.service.UserService;
@@ -104,5 +106,28 @@ public class UserServiceHolder implements UserService {
     if (!this.userRepository.existsById(id))
       throw new BusinessException(ErrorCode.USER_ID_NOT_FOUND); // exception object
     this.userRepository.deleteById(id); // delete from Users wgere id = 10000;
+  }
+
+  @Override
+  public User modifyUser(String userID, UserRequest userRequest) {
+    Optional<UserEntity> targetUser =
+        userRepository.findById(Long.parseLong(userID));
+
+    if (targetUser.isPresent()) {
+      targetUser.get().setName(userRequest.getName());
+      targetUser.get().setEmail(userRequest.getEmail());
+      targetUser.get().setPhone(userRequest.getPhone());
+      userRepository.save(targetUser.get());
+    }
+    throw new UserNotExistException(ErrorCode.USER_ID_NOT_FOUND);
+  }
+
+  @Override
+  public User updateEmail(String userid, String email){
+    Optional<UserEntity> targetUser = userRepository.findById(Long.valueOf(userid));
+    UserEntity existUser = targetUser.get();
+    existUser.setEmail(email);
+    userRepository.save(existUser);
+    return mapper.map(existUser);
   }
 }

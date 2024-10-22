@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // Hibernate -> @Entity
 @Entity // JPA help create table if not exists
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Setter
 public class UserEntity implements Serializable {
   @Id // Primary Key
   @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment(自動遞增+1)
@@ -29,7 +30,7 @@ public class UserEntity implements Serializable {
   private String name; // column
   private String username;
   
-  @Column(name = "useremail")
+  @Column(name = "user_email")
   private String email;
   private String phone;
   private String website;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
+import com.bootcamp.demo.demo_restapi.infra.GeneralResponse;
 import com.bootcamp.demo.demo_restapi.model.User;
 import com.bootcamp.demo.demo_restapi.model.UserRequest;
 
@@ -41,7 +42,7 @@ public interface UserOperation {
   // PutMapping -> update the row of database -> by id find something, than modify
   @PutMapping("/user/{userID}")
   @ResponseStatus(HttpStatus.ACCEPTED)
-  User modiUser(@RequestBody UserRequest userRequest);
+  User modifyUser(@PathVariable String userid, @RequestBody UserRequest userRequest);
   // {
   // "username" : "Test"
   // "email" : "Test"
@@ -51,7 +52,11 @@ public interface UserOperation {
   // @PatchMapping // 改column
   @PatchMapping("/user/{userID}") // /user/1/email@email.com"
   @ResponseStatus(HttpStatus.ACCEPTED)
-  User updateEmail(@RequestParam String email);
+  User updateEmail(@PathVariable String userid, @RequestParam String email);
 
   // @DeleteMapping // delete
+
+  // @GetMapping(value = "/user")
+  // GeneralResponse<User> getUserByUserName(@RequestParam("username") String username);
+  // Controller Layer: Convert UserEntity -> User -> GeneralRespone<User>
 }

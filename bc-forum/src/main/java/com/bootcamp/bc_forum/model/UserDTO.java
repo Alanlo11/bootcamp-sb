@@ -32,7 +32,7 @@ public class UserDTO {
   public static class AddressDTO {
     private Long id;
     private String street;
-    private String sute;
+    private String suite;
   }
 
   public static class CommentDTO {

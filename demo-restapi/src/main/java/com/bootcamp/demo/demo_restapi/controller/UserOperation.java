@@ -1,6 +1,5 @@
 package com.bootcamp.demo.demo_restapi.controller;
 
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_restapi.infra.GeneralResponse;
 import com.bootcamp.demo.demo_restapi.model.User;
+import com.bootcamp.demo.demo_restapi.model.UserDTO;
 import com.bootcamp.demo.demo_restapi.model.UserRequest;
 
 // frontend同controller 溝通
@@ -23,10 +22,10 @@ import com.bootcamp.demo.demo_restapi.model.UserRequest;
 // 3. RequestBody
 public interface UserOperation {
   @GetMapping(value = "/users") // 查詢
-  User[] getUsers();
+  User[] getAllUsers();
 
   @GetMapping(value = "/users/id")
-  User getUsers(@RequestParam String id);
+  User getUserById(@RequestParam String id);
 
   @GetMapping(value = "/db/users/{id}")
   UserEntity getUsersFromDBById(@PathVariable Long id);
@@ -50,9 +49,13 @@ public interface UserOperation {
   // }
 
   // @PatchMapping // 改column
-  @PatchMapping("/user/{userID}") // /user/1/email@email.com"
+  @PatchMapping("/user/{userID}/email") // /user/1/email@email.com"
   @ResponseStatus(HttpStatus.ACCEPTED)
   User updateEmail(@PathVariable String userid, @RequestParam String email);
+
+  @GetMapping(value = "/user")
+  GeneralResponse<UserDTO> getUserByUsername(@RequestParam String username);
+  // Controller Layer: Convert UserEntity -> User -> GeneralResponse<User>
 
   // @DeleteMapping // delete
 

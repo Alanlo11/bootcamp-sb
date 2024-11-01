@@ -1,6 +1,7 @@
 package com.bootcamp.demo.demo_restapi.model.mapper;
 
 import org.springframework.stereotype.Component;
+import com.bootcamp.demo.demo_restapi.entity.CompanyEntity;
 import com.bootcamp.demo.demo_restapi.entity.PostEntity;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_restapi.model.Post;
@@ -36,7 +37,6 @@ public class Mapper {
 
   public PostEntity map(Post post){
     return PostEntity.builder()
-    .userId(post.getUserId())
     .title(post.getTitle())
     .body(post.getBody())
     .build();
@@ -59,5 +59,13 @@ public class Mapper {
     .body(post.getBody())
     .build();
   }
+
+  // public CompanyEntity map(User.Company company){
+  //   return CompanyEntity.builder()
+  //   .name(company.getName())
+  //   .catchPhrase(company.getCatchPhrase())
+  //   .bs(company.getBs())
+  //   .build();
+  // }
 
 }

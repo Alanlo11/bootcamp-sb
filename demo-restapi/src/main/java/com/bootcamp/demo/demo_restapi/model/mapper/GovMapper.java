@@ -1,14 +1,17 @@
 package com.bootcamp.demo.demo_restapi.model.mapper;
 
-import com.bootcamp.demo.demo_restapi.dto.GovUserDto;
+import org.springframework.stereotype.Component;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
+import com.bootcamp.demo.demo_restapi.model.GovUserDto;
 
+@Component
 public class GovMapper {
-  public static GovUserDto map(UserEntity userEntity){
-    return GovUserDto.builder()
-    .name(userEntity.getName())
-    .email(userEntity.getEmail())
-    .build();
+
+  public GovUserDto map(UserEntity entity) {
+    return GovUserDto.builder() //
+        .name(entity.getName()) //
+        .email(entity.getEmail()) //
+        .build();
   }
   
 }

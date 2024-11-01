@@ -1,5 +1,6 @@
 package com.bootcamp.demo.demo_restapi.infra;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.bootcamp.demo.demo_restapi.model.User;
 
@@ -8,7 +9,7 @@ public class GeneralResponse<T> {
   private String message;
   private List<T> data;
 
-  public static <T> Builder<T> builder() {
+  public static <U> Builder<U> builder() {
     return new Builder<>();
   }
 
@@ -31,28 +32,25 @@ public class GeneralResponse<T> {
   }
 
   @Override
-  public String toString(){
-    return "GeneralResponse("
-    + "code=" + this.code
-    + "message=" + this.message
-    + "data" + this.data
-    + ")";
+  public String toString() {
+    return "GeneralResponse(" //
+        + "code=" + this.code //
+        + ", message=" + this.message //
+        + ", data=" + this.data //
+        + ")";
   }
 
   public static class Builder<T> {
     private String code;
     private String message;
     private List<T> data;
-    
 
-    // set
-    public Builder<T> code(String code) {
-      this.code = code;
-      return this;
-    }
-
-    public Builder<T> message(String message) {
-      this.message = message;
+    public Builder<T> status(SysCode sysCode) {
+      this.code = sysCode.getCode();
+      this.message = sysCode.getMessage();
+      if (sysCode == SysCode.FAIL) {
+        this.data = new ArrayList<>();
+      }
       return this;
     }
 
@@ -62,18 +60,19 @@ public class GeneralResponse<T> {
     }
 
     public GeneralResponse<T> build() {
+      if (this.code == null || this.message == null)
+        throw new IllegalArgumentException("Missing Code and Message.");
       return new GeneralResponse<>(this);
-      // inner class call outer class constructor
+      // inner class call outer class' constructor
     }
-
-    
   }
+
   public static void main(String[] args) {
-    GeneralResponse<User> response = GeneralResponse.<User>builder() // define the Type of static method with Generic
-    .code("000000")
-    .message("Success")
-    .data(List.of(new User()))
-    .build();
+    // define the type of static method with generic
+    GeneralResponse<User> response =
+        GeneralResponse.<User>builder().status(SysCode.FAIL)
+            // .data(null)
+            .build();
 
     System.out.println(response);
   }

@@ -7,10 +7,10 @@ public enum Scheme {
   HTTP("http://"),
   HTTPS("https://"),
   ;
+  private String value;
 
-  private String urlPrefix;
-
-  private Scheme(String urlPrefix) {
-    this.urlPrefix = urlPrefix;
+  private Scheme(String value){
+    this.value = value;
   }
+  
 }

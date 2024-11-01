@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.bootcamp.demo.demo_restapi.infra.GeneralResponse;
+import com.bootcamp.demo.demo_restapi.infra.SysCode;
 
 // 1. -> Method A -> Method B -> Method C -> return object to B -> return object to A
 // 2. -> Method A -> Method B -> Method C -> throw exception -> B handle exception ...
@@ -17,9 +18,9 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BusinessException.class)
   public ErrorResponse bussinessExceptionHandler(BusinessException e) {
     return ErrorResponse.builder()
-    .code(e.getCode())
-    .message(e.getMessage())
-    .build();
+        .code(0)
+        .message(e.getMessage()) //
+        .build();
   }
 
   @ExceptionHandler(UserNotExistException.class)
@@ -30,13 +31,11 @@ public class GlobalExceptionHandler {
     .build();
   }
 
-  @ExceptionHandler(BusinessException.class)
+  @ExceptionHandler(Exception.class)
   public GeneralResponse<Object> exceptionHandler(Exception e) {
-    return GeneralResponse.<Object>builder()
-    .code("900000")
-    .message("Fail.")
-    .data(new ArrayList<>())
-    .build();
+    return GeneralResponse.<Object>builder() //
+        .status(SysCode.FAIL) //
+        .build();
   }
 
 }

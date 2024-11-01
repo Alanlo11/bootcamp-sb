@@ -1,0 +1,21 @@
+server:
+  port: 8090
+
+api:
+  url:
+    domain: "jsonplaceholder.typicode.com"
+    endpoint:
+    users: "/users"
+    posts: "/posts"
+    comments: "/comments"
+
+spring:
+  datasource:
+    # driverClassName: "org.postgresql.Driver"
+    url: "jdbc:postgresql://localhost:5432/forum"
+    username: postgres
+    password: admin1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create

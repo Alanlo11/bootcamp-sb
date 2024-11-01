@@ -8,8 +8,8 @@ import lombok.ToString;
 @ToString
 @Setter
 public class Post {
-  private Integer userId;
-  private Integer id;
+  private Long userId;
+  private Long id;
   private String title;
   private String body;
 }

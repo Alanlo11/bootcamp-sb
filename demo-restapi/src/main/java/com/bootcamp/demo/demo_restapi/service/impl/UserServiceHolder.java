@@ -28,7 +28,7 @@ public class UserServiceHolder implements UserService {
   @Value("${api.url.domain}")
   private String domain;
 
-  @Value("${api.url.endpoint}")
+  @Value("${api.url.users}")
   private String endpoint;
 
   @Autowired
@@ -49,14 +49,23 @@ public class UserServiceHolder implements UserService {
   // this.restTemplate = restTemplate;
   // }
 
+  // @Override
+  // public User[] getUsersFromWebSite(){
+
+  // }
+
   @Override
   public User[] getUsers() {
     // call API from "jsonplaceholder.typicode.com/users"
     // we receive User Array
 
     // getForObject(): call API + serialize result and convert to User[]
-    String url = UrlManager.builder().scheme(Scheme.HTTPS).domain(this.domain)
-        .endpoint(this.endpoint).build().toString();
+    String url = UrlManager.builder()
+        .scheme(Scheme.HTTPS)
+        .domain(this.domain)
+        .endpoint(this.endpoint)
+        .build()
+        .toString();
 
     System.out.println("url=" + url); // debug
 
@@ -96,16 +105,17 @@ public class UserServiceHolder implements UserService {
   }
 
   @Override
-  public Optional<UserEntity> getUsersFromDB(Long id) {
-    return userRepository.findById(id);
+  public Optional<UserEntity> getUserFromDB(Long id) {
+    return this.userRepository.findById(id);
   }
-  
-  // Controller -> Service.deleteById()
+
+  // Controller -> Service.deleteById
   @Override
   public void deleteById(Long id) {
     if (!this.userRepository.existsById(id))
-      throw new BusinessException(ErrorCode.USER_ID_NOT_FOUND); // exception object
-    this.userRepository.deleteById(id); // delete from Users wgere id = 10000;
+      throw new BusinessException(ErrorCode.USER_ID_NOT_FOUND); // exception
+                                                                // object
+    this.userRepository.deleteById(id);
   }
 
   @Override
@@ -129,5 +139,10 @@ public class UserServiceHolder implements UserService {
     existUser.setEmail(email);
     userRepository.save(existUser);
     return mapper.map(existUser);
+  }
+
+  @Override
+  public UserEntity getUserByUsername(String username) {
+    return this.userRepository.findByUsername(username);
   }
 }

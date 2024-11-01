@@ -12,7 +12,7 @@ public class DTOController implements DTOOperation{
   private DTOService dtoService;
 
   @Override
-  public UserPostDTO getUserPostDTO(String userid,String id){
-    return dtoService.getUserPostDTOs(userid, id);
+  public UserPostDTO getUserPostDTO(String userid,String postid){
+    return dtoService.getUserPostDTOs(userid, postid);
   }
 }

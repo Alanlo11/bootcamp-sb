@@ -15,6 +15,7 @@ import com.bootcamp.demo.demo_restapi.service.UserService;
 
 @Service
 public class DTOServiceHolder implements DTOService{
+  
   @Autowired
   private UserService userService;
 
@@ -35,7 +36,7 @@ public class DTOServiceHolder implements DTOService{
       if (Integer.valueOf(postid).equals(Integer.valueOf(0))) {
         list.add(mapper.getPostDTO(p));
       } else {
-      if (p.getId().equals(Integer.valueOf(postid))) {
+      if (p.getId().equals(Long.valueOf(postid))) {
         list.add(mapper.getPostDTO(p));
         System.out.println("DTO=" + list.toString());
         break;
@@ -45,5 +46,5 @@ public class DTOServiceHolder implements DTOService{
   userPostDTO.setPostDTO(list);
       return userPostDTO;
   }
-
+  
 }

@@ -11,6 +11,8 @@ import com.bootcamp.demo.demo_restapi.model.UserPostDTO;
 public interface DTOOperation {
   @GetMapping(value = "/userpost/{userid}/postid")
   @ResponseStatus(HttpStatus.OK)
+  
   UserPostDTO getUserPostDTO(@PathVariable String userid,
   @RequestParam(defaultValue = "0", value = "postid") String postid);
+
 }

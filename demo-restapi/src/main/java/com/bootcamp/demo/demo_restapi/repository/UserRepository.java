@@ -15,7 +15,7 @@ import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 // 3. Construct the corresponding Entity Java Object
 @Repository // bean
 public interface UserRepository extends JpaRepository<UserEntity, Long> { // 右邊係擺pm key type
-  // Built in JPA Method
+  // Built in JPA Method, 本身內建，根據本身佢有既attribute而自帶
   // save() connect database -> insert into Users value(...) / similar Map.put -> create or update
   // findAll() select * from users; -> return List<User>
   // findById() -> select * from Users ehere id = ?
@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> { // 右
   List<UserEntity> findByNameAndWebsite(String name, String website);
 
   List<UserEntity> findByNameOrWebsite(String name, String website);
-
+  
   // JPQL
   // Syntax is similar to SQL
   // Select from Entity Class
@@ -58,4 +58,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> { // 右
   nativeQuery = true)
   int updateUserEmail(@Param("userEmail")String userEmail, @Param("id") Long id);
   
+  @Query("SELECT e FROM UserEntity e WHERE e.username = :username")
+  UserEntity findByUsername(@Param("username") String username);
 }

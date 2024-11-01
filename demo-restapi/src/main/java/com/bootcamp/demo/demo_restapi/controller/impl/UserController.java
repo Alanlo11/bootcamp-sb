@@ -2,20 +2,20 @@ package com.bootcamp.demo.demo_restapi.controller.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.demo.demo_restapi.controller.UserOperation;
 import com.bootcamp.demo.demo_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_restapi.exception.BusinessException;
 import com.bootcamp.demo.demo_restapi.exception.ErrorCode;
+import com.bootcamp.demo.demo_restapi.infra.GeneralResponse;
+import com.bootcamp.demo.demo_restapi.infra.SysCode;
 import com.bootcamp.demo.demo_restapi.model.User;
+import com.bootcamp.demo.demo_restapi.model.UserDTO;
 import com.bootcamp.demo.demo_restapi.model.UserRequest;
 import com.bootcamp.demo.demo_restapi.model.mapper.Mapper;
+import com.bootcamp.demo.demo_restapi.model.mapper.UserMapper;
 import com.bootcamp.demo.demo_restapi.service.UserService;
 
 @RestController // @Controller + @ResponseBody
@@ -27,12 +27,12 @@ public class UserController implements UserOperation {
   private Mapper mapper;
 
   @Override
-  public User[] getUsers() {
+  public User[] getAllUsers() {
     return userService.getUsers();
   }
 
   @Override
-  public User getUsers(String id){
+  public User getUserById(String id){
     return userService.getUsers(id);
   }
 
@@ -46,7 +46,7 @@ public class UserController implements UserOperation {
 
   @Override
   public UserEntity getUsersFromDBById(Long id){
-    Optional<UserEntity> userEntity = this.userService.getUsersFromDB(id);
+    Optional<UserEntity> userEntity = this.userService.getUserFromDB(id);
     if (userEntity.isPresent()) {
       return userEntity.get();
     }
@@ -66,6 +66,17 @@ public class UserController implements UserOperation {
   @Override
   public User updateEmail(String userid, String email) {
     return userService.updateEmail(userid, email);
+  }
+
+  @Override
+  public GeneralResponse<UserDTO> getUserByUsername(String username) {
+    UserEntity userEntity = this.userService.getUserByUsername(username);
+    
+    UserDTO userDTO = UserMapper.map(userEntity);
+    return GeneralResponse.<UserDTO>builder() //
+        .status(SysCode.OK) //
+        .data(List.of(userDTO)) //
+        .build();
   }
 
 }

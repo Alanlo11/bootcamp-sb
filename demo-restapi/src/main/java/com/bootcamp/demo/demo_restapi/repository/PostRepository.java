@@ -9,6 +9,8 @@ import com.bootcamp.demo.demo_restapi.entity.PostEntity;
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
+  // Repository 天生return Optional
+
   // 1. JPQL
 
 

@@ -6,5 +6,5 @@ import com.bootcamp.bc_forum.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
-  
+
 }

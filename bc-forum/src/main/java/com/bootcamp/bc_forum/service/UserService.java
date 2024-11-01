@@ -7,4 +7,6 @@ public interface UserService {
 
   List<UserEntity> saveAll(List<UserEntity> userEntities);
 
+  List<UserEntity> getAll();
+
 }

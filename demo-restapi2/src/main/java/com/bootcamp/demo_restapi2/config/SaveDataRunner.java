@@ -17,6 +17,7 @@ import com.bootcamp.demo_restapi2.service.UserService;
 
 @Component
 public class SaveDataRunner implements CommandLineRunner {
+
   @Autowired
   private UserRepository userRepository;
 

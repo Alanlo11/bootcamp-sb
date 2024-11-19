@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.web.servlet.MockMvc;
+import com.bootcamp.demo_restapi2.controller.impl.BankUserController;
 import com.bootcamp.demo_restapi2.entity.UserEntity;
 import com.bootcamp.demo_restapi2.mapper.BankMapper;
 import com.bootcamp.demo_restapi2.mapper.GovMapper;
@@ -17,9 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = {BankUserController.class}) //特定試邊個class
 // A Test spring env,
-// consist of web related beans + some other bean for test (MockMvc)
+// consist of controller beans + some other bean for test (MockMvc)
 public class BankUserControllerTest {
   @Autowired
   private MockMvc mockMvc; // Postman
@@ -28,11 +29,14 @@ public class BankUserControllerTest {
   @MockBean
   private UserService userService;
 
+  // In order to create the bean of BankUserController for this testing env,
+  // BankMapper bean is required
+  // we have to add Bankmapper explicitly
   @SpyBean
   private BankMapper bankMapper;
 
-  @SpyBean
-  private GovMapper govMapper;
+  // @SpyBean
+  // private GovMapper govMapper;
 
   @Test
   void testGetUserByUserName() throws Exception {

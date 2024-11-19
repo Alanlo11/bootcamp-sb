@@ -1,10 +1,14 @@
 package com.bootcamp.demo_restapi2.service.impl;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.bootcamp.demo_restapi2.entity.UserEntity;
@@ -15,6 +19,8 @@ import com.bootcamp.demo_restapi2.service.UserService;
 import com.bootcamp.demo_restapi2.util.BusinessException;
 import com.bootcamp.demo_restapi2.util.ErrorCode;
 import com.bootcamp.demo_restapi2.util.UrlManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class UserServiceHolder implements UserService{
@@ -32,7 +38,13 @@ public class UserServiceHolder implements UserService{
   private RestTemplate restTemplate;
 
   @Autowired
+  private RedisTemplate<String, String> redisTemplate;
+
+  @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
   @Autowired
   private JPHMapper jphMapper;
@@ -57,7 +69,6 @@ public class UserServiceHolder implements UserService{
     System.out.println("url=" + url); // debug
     return Arrays.asList(this.restTemplate.getForObject(url, UserDTO[].class));
   }
-  
   @Override
   public UserDTO[] getUsers() {
     // call API from "jsonplaceholder.typicode.com/users"
@@ -101,4 +112,20 @@ public class UserServiceHolder implements UserService{
   public UserEntity getUserByUsername(String username) {
     return this.userRepository.findByUsername(username);
   }
+
+  @Override
+  public List<UserDTO> getUserFromRedis() throws JsonProcessingException {
+    String key = this.redisTemplate.opsForValue().get("user");
+    if(key == null){
+      List<UserDTO> users = this.userRepository.findAll().stream()
+      .map(u -> this.jphMapper.map(u))
+      .collect(Collectors.toList());
+      String jsonToWrite = this.objectMapper.writeValueAsString(users);
+      this.redisTemplate.opsForValue().set("user", jsonToWrite);
+      return users;
+    }
+    return Arrays.asList(this.objectMapper.readValue(key, UserDTO[].class));
+  }
+
+  
 }

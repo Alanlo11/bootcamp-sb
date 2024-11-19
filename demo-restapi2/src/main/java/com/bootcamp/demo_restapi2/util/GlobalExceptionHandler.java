@@ -1,10 +1,7 @@
-package com.bootcamp.demo_restapi2.exception;
+package com.bootcamp.demo_restapi2.util;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.bootcamp.demo_restapi2.util.BusinessException;
-import com.bootcamp.demo_restapi2.util.GeneralResponse;
-import com.bootcamp.demo_restapi2.util.SysCode;
 
 @RestControllerAdvice // bean
 public class GlobalExceptionHandler {

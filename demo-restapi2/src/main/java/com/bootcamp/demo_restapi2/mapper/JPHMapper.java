@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import com.bootcamp.demo_restapi2.entity.CompanyEntity;
 import com.bootcamp.demo_restapi2.entity.PostEntity;
 import com.bootcamp.demo_restapi2.entity.UserEntity;
+import com.bootcamp.demo_restapi2.model.Post;
 import com.bootcamp.demo_restapi2.model.PostDTO;
 import com.bootcamp.demo_restapi2.model.UserDTO;
 
@@ -27,6 +28,14 @@ public class JPHMapper {
         .build();
   }
 
+  public Post map(PostEntity postEntity) {
+    return Post.builder() //
+        .id(postEntity.getId()) //
+        .title(postEntity.getTitle()) //
+        .body(postEntity.getBody()) //
+        .build();
+  }
+
   public CompanyEntity map(UserDTO.CompanyDTO companyDTO) {
     return CompanyEntity.builder() //
         .catchPhrase(companyDTO.getCatchPhrase()) //
@@ -34,4 +43,16 @@ public class JPHMapper {
         .name(companyDTO.getName()) //
         .build();
   }
+
+  public UserDTO map(UserEntity userEntity){
+    return UserDTO.builder()
+    .email(userEntity.getEmail())
+    .id(userEntity.getId())
+    .name(userEntity.getName())
+    .username(userEntity.getUsername())
+    .phone(userEntity.getPhone())
+    .website(userEntity.getWebsite())
+    .build();
+  }
+  
 }

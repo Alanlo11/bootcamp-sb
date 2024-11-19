@@ -1,4 +1,4 @@
-package com.bootcamp.demo_restapi2.exception;
+package com.bootcamp.demo_restapi2.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

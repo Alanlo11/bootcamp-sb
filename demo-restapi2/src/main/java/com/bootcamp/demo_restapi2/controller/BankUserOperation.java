@@ -1,5 +1,6 @@
 package com.bootcamp.demo_restapi2.controller;
 
+import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +9,7 @@ import com.bootcamp.demo_restapi2.dto.BankUserDto;
 import com.bootcamp.demo_restapi2.entity.UserEntity;
 import com.bootcamp.demo_restapi2.model.UserDTO;
 import com.bootcamp.demo_restapi2.util.GeneralResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface BankUserOperation {
   @GetMapping(value = "/users")
@@ -23,4 +25,6 @@ public interface BankUserOperation {
   GeneralResponse<BankUserDto> getUserByUsername(@RequestParam String username);
   // Controller Layer: Convert UserEntity -> User -> GeneralResponse<User>
   
+  @GetMapping(value = "/redis/user")
+  List<UserDTO> getUserFromRedis() throws JsonProcessingException;
 }

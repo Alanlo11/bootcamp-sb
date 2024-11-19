@@ -7,7 +7,7 @@ import com.bootcamp.demo_restapi2.model.UserDTO;
 public class GeneralResponse<T> {
   private String code;
   private String message;
-  private List<T> data;
+  private List<T> data;// List<T>
 
   public static <U> Builder<U> builder() {
     return new Builder<>();

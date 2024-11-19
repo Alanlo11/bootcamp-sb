@@ -1,0 +1,18 @@
+server:
+  port: 8090
+
+api:
+  url:
+    domain: "finance.yahoo.com"
+    endpoint: 
+    0388: "/quote/0388.HK/history/"
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/yahoo_finance"
+    username: postgres
+    password: admin1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create

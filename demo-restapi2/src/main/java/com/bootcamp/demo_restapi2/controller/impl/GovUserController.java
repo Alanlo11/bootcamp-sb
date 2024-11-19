@@ -36,5 +36,4 @@ public class GovUserController implements GovUserOperation{
     }
     throw new BusinessException(ErrorCode.USER_ID_NOT_FOUND);
   }
-
 }

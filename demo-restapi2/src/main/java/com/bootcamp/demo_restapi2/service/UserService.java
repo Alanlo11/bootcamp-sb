@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import com.bootcamp.demo_restapi2.entity.UserEntity;
 import com.bootcamp.demo_restapi2.model.UserDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface UserService {
-  /**
-   * Get User Data from jsonplaceholder website
-   * @return
-   */
   UserDTO[] getUsers();
 
   List<UserDTO> getUsersFromWebsite();
@@ -23,4 +20,6 @@ public interface UserService {
   void deleteById(Long id);
 
   UserEntity getUserByUsername(String username);
+
+  List<UserDTO> getUserFromRedis() throws JsonProcessingException;
 }

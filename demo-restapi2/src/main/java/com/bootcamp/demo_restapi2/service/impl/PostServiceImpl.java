@@ -3,12 +3,14 @@ package com.bootcamp.demo_restapi2.service.impl;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.bootcamp.demo_restapi2.entity.PostEntity;
+import com.bootcamp.demo_restapi2.mapper.JPHMapper;
+import com.bootcamp.demo_restapi2.model.Post;
 import com.bootcamp.demo_restapi2.model.PostDTO;
 import com.bootcamp.demo_restapi2.repository.PostRepository;
 import com.bootcamp.demo_restapi2.service.PostService;
@@ -36,6 +38,9 @@ public class PostServiceImpl implements PostService{
   @Autowired
   private ObjectMapper objectMapper;
 
+  @Autowired
+  private JPHMapper jphMapper;
+
   @Override
   public List<PostDTO> getPosts() {
     String url = UrlManager.builder() //
@@ -50,17 +55,21 @@ public class PostServiceImpl implements PostService{
   }
 
   @Override
-  public List<PostEntity> getPostsFromDB() throws JsonProcessingException {
+  public List<Post> getPostsFromRedis() throws JsonProcessingException {
     // Cache Pattern (Redis + DB)
     // Get from Redis
     String json = this.redisTemplate.opsForValue().get("jph-posts");
     // If not found, read from DB, and then write to Redis
     if (json == null) {
-      List<PostEntity> postEntities = this.postRepository.findAll();
-      String jsonToWrite = this.objectMapper.writeValueAsString(postEntities);
-      this.redisTemplate.opsForValue().set("jph-posts", jsonToWrite, Duration.ofSeconds(30));
-      return postEntities;
+      // PostEntity to Post
+      List<Post> posts = this.postRepository.findAll().stream() //
+          .map(p -> this.jphMapper.map(p)) //
+          .collect(Collectors.toList());
+      String jsonToWrite = this.objectMapper.writeValueAsString(posts);
+      this.redisTemplate.opsForValue().set("jph-posts", jsonToWrite,
+          Duration.ofSeconds(30));
+      return posts;
     }
-    return Arrays.asList(this.objectMapper.readValue(json, PostEntity[].class));
+    return Arrays.asList(this.objectMapper.readValue(json, Post[].class));
   }
 }

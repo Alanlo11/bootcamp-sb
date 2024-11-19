@@ -1,11 +1,17 @@
 package com.bootcamp.demo_restapi2.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@Builder
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
   private Long id;

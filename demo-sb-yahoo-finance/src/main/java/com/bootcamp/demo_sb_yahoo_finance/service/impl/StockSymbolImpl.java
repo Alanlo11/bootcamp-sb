@@ -13,13 +13,19 @@ public class StockSymbolImpl implements StockSymbolService{
   private StockSymbolRepository stockSymbolRepository;
 
   @Override
+  public List<StockEntity> saveAll(List<StockEntity> symbolsList) {
+
+    return stockSymbolRepository.saveAll(symbolsList);
+  }
+
+  @Override
   public void deleteAll() {
     stockSymbolRepository.deleteAll();
   }
 
   @Override
-  public List<StockEntity> saveAll(List<StockEntity> symbolsList) {
-    return stockSymbolRepository.saveAll(symbolsList);
+  public List<StockEntity> findAll() {
+    return stockSymbolRepository.findAll();
   }
 
 }

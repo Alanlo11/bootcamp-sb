@@ -1,7 +1,9 @@
 package com.bootcamp.demo_sb_yahoo_finance.model;
 
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
+import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
 
 @Component
 public class Mapper {
@@ -10,5 +12,21 @@ public class Mapper {
     return StockEntity.builder()
     .symbol(stock)
     .build();
+  }
+
+  public StockPrice map(YahooQuoteDTO.QuoteBody.Result result) {
+    return StockPrice.builder()//
+        .symbol(result.getSymbol())//
+        .regularMarketTime(String.valueOf(result.getRegularMarketTime()))//
+        .regularMarketTime(String.valueOf(result.getRegularMarketPrice()))//
+        .regularMarketTime(String.valueOf(result.getRegularMarketChangePercent()))//
+        .bid(String.valueOf(result.getBid()))//
+        .bidSize(String.valueOf(result.getBidSize()))//
+        .ask(String.valueOf(result.getAsk()))//
+        .askSize(String.valueOf(result.getAskSize()))//
+        .apiDateTime(LocalDateTime.now().toString())//
+        .marketUnixTime(String.valueOf(result.getRegularMarketTime()))
+        .type(null)//
+        .build();
   }
 }

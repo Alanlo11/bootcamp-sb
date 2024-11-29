@@ -1,0 +1,86 @@
+.h1 {
+  text-align: center;
+  color: #333;
+}
+
+.styled-table{
+  font-size: 15px;
+  border: 1px solid #2017c4;
+  margin: 25px auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.styled-table thead tr {
+  background-color: #718fe8;
+  color: #383838;
+  text-align: left;
+  font-weight: bold;
+}
+
+.styled-table th,
+.styled-table td {
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #ffffff;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #ddd;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #ed0707;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #383838;
+  cursor: pointer;
+}
+
+.coin-symbol {
+  color: grey;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.last-updated {
+  color: grey;
+  font-size: 9px;
+  font-style: italic;
+}
+
+.coin-img {
+  width: 20px;
+  height: 20px;
+  top: 1px;
+  left: 1px;
+}
+
+.coin-details {
+  margin-left: 5px;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.coin-name {
+  font-size: 15px;
+  margin-right: 7px;
+  font-weight: bold;
+}
+
+.up {
+  color: green;
+}
+
+.down {
+  color: red;
+}
+
+.neutral {
+  color: grey;
+}

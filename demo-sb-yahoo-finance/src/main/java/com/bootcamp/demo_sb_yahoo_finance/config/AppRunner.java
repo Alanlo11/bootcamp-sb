@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class AppRunner implements CommandLineRunner{
-
   @Autowired
   private StockSymbolService stockSymbolService;
 

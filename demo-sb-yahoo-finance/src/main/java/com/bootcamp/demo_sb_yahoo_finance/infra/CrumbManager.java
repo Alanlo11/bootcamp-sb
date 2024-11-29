@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class CrumbManager {
+
   private CookieManager cookieManager;
   private RestTemplate restTemplate;
 

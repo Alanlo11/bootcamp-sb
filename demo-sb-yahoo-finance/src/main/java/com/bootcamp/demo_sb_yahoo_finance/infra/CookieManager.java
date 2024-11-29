@@ -10,10 +10,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class CookieManager {
+
   private RestTemplate restTemplate;
 
-  public CookieManager(RestTemplate restTemplate){
-    this.restTemplate=restTemplate;
+  public CookieManager(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 
   public String getCookie() {

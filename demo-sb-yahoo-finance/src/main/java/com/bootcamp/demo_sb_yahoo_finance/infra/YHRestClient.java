@@ -34,9 +34,8 @@ public class YHRestClient {
 
   public YHRestClient(RestTemplate restTemplate) {
     this.cookieStore = new BasicCookieStore();
-    CloseableHttpClient httpClient = HttpClients.custom()//
-        .setDefaultCookieStore(this.cookieStore)//
-        .build();
+    CloseableHttpClient httpClient =
+        HttpClients.custom().setDefaultCookieStore(this.cookieStore).build();
 
     HttpComponentsClientHttpRequestFactory factory =
         new HttpComponentsClientHttpRequestFactory();
@@ -45,38 +44,31 @@ public class YHRestClient {
     List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
     interceptors.add(new UserAgentInterceptor(USER_AGENT));
 
-    this.restTemplate = new RestTemplateBuilder()//
-        .setConnectTimeout(Duration.ofSeconds(5))//
-        .setReadTimeout(Duration.ofSeconds(5))//
-        .build();
+    this.restTemplate =
+        new RestTemplateBuilder().setConnectTimeout(Duration.ofSeconds(5))
+            .setReadTimeout(Duration.ofSeconds(5)).build();
 
     this.restTemplate.setRequestFactory(factory);
     this.restTemplate.setInterceptors(interceptors);
     this.crumbManager = new CrumbManager(this.restTemplate);
-
   }
 
   public YahooQuoteDTO getQuote(List<String> symbols)
       throws JsonMappingException, JsonProcessingException {
-
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-    params.put("symbols", List.of(String.join(",", symbols)));// 0005.HK,0700.HK,0388.HK.....
-    params.put("crumb", List.of(""));// symbols=0005.HK,0700.HK,0388.HK&crumb=
+    params.put("symbols", List.of(String.join(",", symbols)));
+    params.put("crumb", List.of(""));
 
-    String url = UriComponentsBuilder.newInstance()//
-        .scheme(Scheme.HTTPS.name().toLowerCase())//
-        .host(YahooFinance.CRUMB_DOMAINE)//
-        .path(YahooFinance.VERSION_QUOTE)//
-        .path(YahooFinance.ENDPOINT_QUOTE)//
-        .queryParams(params)//
-        .toUriString();
+    String url = UriComponentsBuilder.newInstance()
+        .scheme(Scheme.HTTPS.name().toLowerCase())
+        .host(YahooFinance.CRUMB_DOMAINE).path(YahooFinance.VERSION_QUOTE)
+        .path(YahooFinance.ENDPOINT_QUOTE).queryParams(params).toUriString();
 
     synchronized (lock) {
       this.cookieStore.clear();
       String crumb = this.crumbManager.getCrumb();
-      //pass by reference 
-      url = url.concat(crumb);// symbols=0005.HK,0700.HK,0388.HK&crumb={validCrumb}
-      System.out.println(url);
+      url = url.concat(crumb);
+      System.out.println("Final URL: " + url);
       ResponseEntity<String> response =
           this.restTemplate.getForEntity(url, String.class);
 
@@ -87,7 +79,6 @@ public class YHRestClient {
 
   private static class UserAgentInterceptor
       implements ClientHttpRequestInterceptor {
-
     private final String userAgent;
 
     public UserAgentInterceptor(String userAgent) {
@@ -103,7 +94,6 @@ public class YHRestClient {
       request.getHeaders().set("User-Agent", userAgent);
       return execution.execute(request, body);
     }
-
-
   }
+
 }

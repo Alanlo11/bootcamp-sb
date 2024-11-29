@@ -25,10 +25,10 @@ public class UrlManager {
   }
 
   public String toUriString() {
-    return UriComponentsBuilder.newInstance() //
-      .scheme(this.scheme.name().toLowerCase()) //
-      .host(this.domain) //
-      .path(this.endpoint) //
+    return UriComponentsBuilder.newInstance()
+      .scheme(this.scheme.name().toLowerCase())
+      .host(this.domain)
+      .path(this.endpoint)
       .toUriString();
   }
 

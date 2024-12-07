@@ -1,4 +1,4 @@
-package com.bootcamp.demo_sb_yahoo_finance.infra;
+package com.bootcamp.demo_sb_yahoo_finance.infra.Yahoo;
 
 
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.bootcamp.demo_sb_yahoo_finance.infra.Scheme;
 
 public class CookieManager {
 

@@ -1,0 +1,9 @@
+-所有答案控制係一兩分鐘內
+-what is OOP
+-tech question,較少
+-exception !!! important !!!
+-check exception, uncheck exception
+-點解想轉行
+-點解要請你?
+-ats AI -> 可以search下係咩黎
+-JD

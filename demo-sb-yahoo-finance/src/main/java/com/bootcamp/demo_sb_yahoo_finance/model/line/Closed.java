@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 @Builder
-public class Base {
-  private double close;
+public class Closed implements Price {
+  private Double close;
 }

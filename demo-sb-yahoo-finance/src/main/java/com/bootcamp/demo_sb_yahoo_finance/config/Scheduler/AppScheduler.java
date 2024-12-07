@@ -51,9 +51,10 @@ public class AppScheduler {
   public void cronJob() throws JsonMappingException, JsonProcessingException {
 
     String[] symbol = redisHelper.get("STOCK-LIST", String[].class);
-    List<String> symbols = Arrays.stream(symbol)//
-        .collect(Collectors.toList());
-    stockPriceService.save(symbols);
+    // List<String> symbols = Arrays.stream(symbol)//
+    //     .collect(Collectors.toList());
+    // stockPriceService.save(symbols);
     System.out.println("Success 5 mins CRON job");
+    
   }
 }

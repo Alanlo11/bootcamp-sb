@@ -1,12 +1,15 @@
-package com.bootcamp.demo_sb_yahoo_finance.infra;
+package com.bootcamp.demo_sb_yahoo_finance.infra.Yahoo;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.bootcamp.demo_sb_yahoo_finance.infra.Scheme;
 
+@Component
 public class CrumbManager {
 
   private CookieManager cookieManager;
@@ -42,4 +45,5 @@ public class CrumbManager {
       return null;
     }
   }
+  
 }

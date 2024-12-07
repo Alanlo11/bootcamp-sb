@@ -1,32 +1,23 @@
 package com.bootcamp.demo_sb_yahoo_finance.model;
 
-import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
-import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
+import com.bootcamp.demo_sb_yahoo_finance.model.dto.StockSymbolDTO;
 
 @Component
 public class Mapper {
-  
-  public StockEntity map(String stock){
-    return StockEntity.builder()
-    .symbol(stock)
-    .build();
-  }
 
-  public StockPrice map(YahooQuoteDTO.QuoteBody.Result result) {
-    return StockPrice.builder()//
-        .symbol(result.getSymbol())//
-        .regularMarketTime(String.valueOf(result.getRegularMarketTime()))//
-        .regularMarketTime(String.valueOf(result.getRegularMarketPrice()))//
-        .regularMarketTime(String.valueOf(result.getRegularMarketChangePercent()))//
-        .bid(String.valueOf(result.getBid()))//
-        .bidSize(String.valueOf(result.getBidSize()))//
-        .ask(String.valueOf(result.getAsk()))//
-        .askSize(String.valueOf(result.getAskSize()))//
-        .apiDateTime(LocalDateTime.now().toString())//
-        .marketUnixTime(String.valueOf(result.getRegularMarketTime()))
-        .type(null)//
+  public StockSymbolDTO map(StockEntity stockEntity) {
+    return StockSymbolDTO.builder()//
+        .id(stockEntity.getId())//
+        .symbol(stockEntity.getSymbol())//
         .build();
   }
+
+  public StockEntity map(String symbol) {
+    return StockEntity.builder()//
+        .symbol(symbol)//
+        .build();
+  }
+
 }

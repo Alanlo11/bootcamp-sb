@@ -1,4 +1,4 @@
-package com.bootcamp.demo_sb_yahoo_finance.infra;
+package com.bootcamp.demo_sb_yahoo_finance.infra.Yahoo;
 
 public class YahooFinance {
   public static final String DOMAINE = "fc.yahoo.com";

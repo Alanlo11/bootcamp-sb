@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RedisHelper {
-  private RedisTemplate<String, Object> redisTemplate;
+  private RedisTemplate<String, String> redisTemplate;
   private ObjectMapper objectMapper;
   
   public RedisHelper(RedisConnectionFactory redisConnectionFactory){

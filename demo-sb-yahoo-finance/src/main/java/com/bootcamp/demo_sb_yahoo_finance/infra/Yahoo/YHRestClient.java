@@ -1,4 +1,4 @@
-package com.bootcamp.demo_sb_yahoo_finance.infra;
+package com.bootcamp.demo_sb_yahoo_finance.infra.Yahoo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -19,7 +19,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.bootcamp.demo_sb_yahoo_finance.model.YahooQuoteDTO;
+import com.bootcamp.demo_sb_yahoo_finance.infra.Scheme;
+import com.bootcamp.demo_sb_yahoo_finance.model.YahooStock;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,12 +31,13 @@ public class YHRestClient {
   private RestTemplate restTemplate;
   private CrumbManager crumbManager;
   private BasicCookieStore cookieStore;
-  private final Object lock = new Object();
+  private final Object lock = new Object(); // for threat safe
 
   public YHRestClient(RestTemplate restTemplate) {
     this.cookieStore = new BasicCookieStore();
-    CloseableHttpClient httpClient =
-        HttpClients.custom().setDefaultCookieStore(this.cookieStore).build();
+    CloseableHttpClient httpClient = HttpClients.custom()//
+        .setDefaultCookieStore(this.cookieStore)//
+        .build();
 
     HttpComponentsClientHttpRequestFactory factory =
         new HttpComponentsClientHttpRequestFactory();
@@ -44,41 +46,49 @@ public class YHRestClient {
     List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
     interceptors.add(new UserAgentInterceptor(USER_AGENT));
 
-    this.restTemplate =
-        new RestTemplateBuilder().setConnectTimeout(Duration.ofSeconds(5))
-            .setReadTimeout(Duration.ofSeconds(5)).build();
+    this.restTemplate = new RestTemplateBuilder()//
+        .setConnectTimeout(Duration.ofSeconds(5))//
+        .setReadTimeout(Duration.ofSeconds(5))//
+        .build();
 
     this.restTemplate.setRequestFactory(factory);
     this.restTemplate.setInterceptors(interceptors);
     this.crumbManager = new CrumbManager(this.restTemplate);
+
   }
 
-  public YahooQuoteDTO getQuote(List<String> symbols)
+  public YahooStock getQuote(List<String> symbols)
       throws JsonMappingException, JsonProcessingException {
-    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-    params.put("symbols", List.of(String.join(",", symbols)));
-    params.put("crumb", List.of(""));
 
-    String url = UriComponentsBuilder.newInstance()
-        .scheme(Scheme.HTTPS.name().toLowerCase())
-        .host(YahooFinance.CRUMB_DOMAINE).path(YahooFinance.VERSION_QUOTE)
-        .path(YahooFinance.ENDPOINT_QUOTE).queryParams(params).toUriString();
+    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+    params.put("symbols", List.of(String.join(",", symbols)));// 0005.HK,0700.HK,0388.HK.....
+    params.put("crumb", List.of(""));// symbols=0005.HK,0700.HK,0388.HK&crumb=
+
+    String url = UriComponentsBuilder.newInstance()//
+        .scheme(Scheme.HTTPS.name().toLowerCase())//
+        .host(YahooFinance.CRUMB_DOMAINE)//
+        .path(YahooFinance.VERSION_QUOTE)//
+        .path(YahooFinance.ENDPOINT_QUOTE)//
+        .queryParams(params)//
+        .toUriString();
 
     synchronized (lock) {
       this.cookieStore.clear();
       String crumb = this.crumbManager.getCrumb();
-      url = url.concat(crumb);
-      System.out.println("Final URL: " + url);
+      // pass by reference
+      url = url.concat(crumb);// symbols=0005.HK,0700.HK,0388.HK&crumb={validCrumb}
+      System.out.println(url);
       ResponseEntity<String> response =
           this.restTemplate.getForEntity(url, String.class);
 
       return new ObjectMapper().readValue(response.getBody(),
-          YahooQuoteDTO.class);
+          YahooStock.class);
     }
   }
 
   private static class UserAgentInterceptor
       implements ClientHttpRequestInterceptor {
+
     private final String userAgent;
 
     public UserAgentInterceptor(String userAgent) {
@@ -94,6 +104,6 @@ public class YHRestClient {
       request.getHeaders().set("User-Agent", userAgent);
       return execution.execute(request, body);
     }
-  }
 
+  }
 }

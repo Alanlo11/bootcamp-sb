@@ -3,15 +3,15 @@ package com.bootcamp.demo_sb_yahoo_finance.model;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class YahooQuoteDTO {
+public class YahooStock {
   @JsonProperty("quoteResponse")
   private QuoteBody body;
 

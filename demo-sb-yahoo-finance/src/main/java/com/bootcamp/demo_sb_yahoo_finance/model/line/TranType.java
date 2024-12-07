@@ -1,4 +1,4 @@
-package com.bootcamp.demo_sb_yahoo_finance.model;
+package com.bootcamp.demo_sb_yahoo_finance.model.line;
 
 import lombok.Getter;
 

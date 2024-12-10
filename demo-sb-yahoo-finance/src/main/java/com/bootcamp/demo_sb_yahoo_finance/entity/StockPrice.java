@@ -2,9 +2,6 @@ package com.bootcamp.demo_sb_yahoo_finance.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,4 +47,5 @@ public class StockPrice implements Serializable {
   @ManyToOne
   @JoinColumn(name = "stock_id")
   private StockEntity stock;
+  
 }

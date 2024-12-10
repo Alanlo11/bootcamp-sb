@@ -42,7 +42,7 @@ public class AppRunner implements CommandLineRunner {
     List<StockEntity> stockEntityList = Arrays.stream(stockList)
         .map(s -> mapper.map(s)).collect(Collectors.toList());
     this.stockSymbolService.saveAll(stockEntityList);
-    System.out.println("Server success saving stock symbols...");
+    System.out.println("Server success saving stock symbols to DB...");
 
     String stock = this.objectMapper.writeValueAsString(stockList);
     this.redisTemplate.opsForValue().set("stock-list", stock);

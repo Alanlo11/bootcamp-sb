@@ -1,5 +1,6 @@
 package com.bootcamp.demo_sb_yahoo_finance.redis;
 
+import java.time.Duration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -10,24 +11,28 @@ public class RedisHelper {
   private RedisTemplate<String, String> redisTemplate;
   private ObjectMapper objectMapper;
   
-  public RedisHelper(RedisConnectionFactory redisConnectionFactory){
+  public RedisHelper(RedisConnectionFactory redisConnectionFactory, ObjectMapper objectMapper){
     this.redisTemplate = new RedisTemplate<>();
 
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-    this.redisTemplate.setConnectionFactory(redisConnectionFactory);
-    this.redisTemplate.setKeySerializer(RedisSerializer.string());
-    this.redisTemplate.setValueSerializer(RedisSerializer.string());
-    this.redisTemplate.afterPropertiesSet();
-  }
-
-  public Object get(String key) {
-    return key == null ? null : redisTemplate.opsForValue().get(key);
+    RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(redisConnectionFactory);
+    redisTemplate.setKeySerializer(RedisSerializer.string());
+    redisTemplate.setValueSerializer(RedisSerializer.json());
+    redisTemplate.afterPropertiesSet();
+    this.redisTemplate = redisTemplate;
+    this.objectMapper = objectMapper;
   }
 
   public <T> T get(String key, Class<T> clazz) throws JsonProcessingException {
-    Object obj = this.redisTemplate.opsForValue().get(key);
-    String json = objectMapper.writeValueAsString(obj);
-    return objectMapper.readValue(json, clazz);
+    String serialized = redisTemplate.opsForValue().get(key);
+    return serialized == null ? null
+        : this.objectMapper.readValue(serialized, clazz);
+  }
+
+  public void set(String key, Object value, Duration duration)
+      throws JsonProcessingException {
+    String serialized = this.objectMapper.writeValueAsString(value);
+    redisTemplate.opsForValue().set(key, serialized, duration);
   }
   
 }

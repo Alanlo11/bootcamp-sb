@@ -1,6 +1,7 @@
 package com.bootcamp.demo_sb_yahoo_finance.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,7 @@ import com.bootcamp.demo_sb_yahoo_finance.model.line.TranType;
 import com.bootcamp.demo_sb_yahoo_finance.repository.StockPriceRepository;
 import com.bootcamp.demo_sb_yahoo_finance.repository.StockSymbolRepository;
 import com.bootcamp.demo_sb_yahoo_finance.service.StockPriceService;
-import com.bootcamp.demo_sb_yahoo_finance.service.StockSymbolService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Service
 public class StockPriceServiceImpl implements StockPriceService{
@@ -32,11 +31,8 @@ public class StockPriceServiceImpl implements StockPriceService{
   @Autowired
   private Mapper mapper;
 
-  @Autowired
-  private StockSymbolService stockSymbolService;
-
    @Override
-  public List<StockPrice> save(List<String> symbol)  throws JsonMappingException, JsonProcessingException{
+  public List<StockPrice> save(List<String> symbol) throws JsonProcessingException{
     YahooStock yahooStock = new YHRestClient(restTemplate).getQuote(symbol);
     List<YahooStock.QuoteBody.Result> result = yahooStock.getBody().getResult();
 
@@ -57,5 +53,15 @@ public class StockPriceServiceImpl implements StockPriceService{
     stockPriceRepository.saveAll(stockPrices);
 
     return stockPrices;
+  }
+
+  @Override
+  public Optional<StockPrice> findBySymbol(String symbol){
+    return this.stockPriceRepository.findBySymbol(symbol);
+  }
+
+  @Override
+  public List<StockPrice> findAll() {
+    return this.stockPriceRepository.findAll();
   }
 }

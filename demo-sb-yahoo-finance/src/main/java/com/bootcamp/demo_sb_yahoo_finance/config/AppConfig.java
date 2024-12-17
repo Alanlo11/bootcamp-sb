@@ -21,8 +21,8 @@ public class AppConfig {
   }
 
   @Bean
-  RedisHelper redisHelper(RedisConnectionFactory redisConnectionFactory) {
-    return new RedisHelper(redisConnectionFactory);
+  RedisHelper redisHelper(RedisConnectionFactory redisConnectionFactory, ObjectMapper objectMapper) {
+    return new RedisHelper(redisConnectionFactory, objectMapper);
   }
 
   @Bean

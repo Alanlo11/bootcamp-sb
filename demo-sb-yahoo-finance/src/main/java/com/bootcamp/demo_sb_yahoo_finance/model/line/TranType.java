@@ -15,4 +15,5 @@ public enum TranType {
   private TranType(String type) {
     this.type = type;
   }
+  
 }

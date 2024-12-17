@@ -2,13 +2,16 @@ package com.bootcamp.demo_sb_yahoo_finance.config;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
+import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
 import com.bootcamp.demo_sb_yahoo_finance.model.Mapper;
+import com.bootcamp.demo_sb_yahoo_finance.repository.StockPriceRepository;
 import com.bootcamp.demo_sb_yahoo_finance.service.StockPriceService;
 import com.bootcamp.demo_sb_yahoo_finance.service.StockSymbolService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,16 +22,19 @@ public class AppRunner implements CommandLineRunner {
   private StockSymbolService stockSymbolService;
 
   @Autowired
+  private StockPriceRepository stockPriceRepository;
+
+  @Autowired
   private Mapper mapper;
 
   @Autowired
   private ObjectMapper objectMapper;
 
   @Autowired
-  private RedisTemplate<String, String> redisTemplate;
+  private StockPriceService stockPriceService;
 
   @Autowired
-  private StockPriceService stockPriceService;
+  private RedisTemplate<String, String> redisTemplate;
 
   @Override
   public void run(String... args) throws Exception {
@@ -46,6 +52,18 @@ public class AppRunner implements CommandLineRunner {
 
     String stock = this.objectMapper.writeValueAsString(stockList);
     this.redisTemplate.opsForValue().set("stock-list", stock);
+
+    stockPriceService.save(Arrays.asList(stockList));
+
+    // for (String stocks : stockList) {
+    //   System.out.println("STOCK= " + stocks);
+    //   Optional<StockPrice> price = this.stockPriceService.findBySymbol(stocks);
+    //   if(price.isPresent()){
+    //     System.out.println(price.get().getMarketPrice());
+    //     this.redisTemplate.opsForValue().set(stocks, String.valueOf(price.get().getMarketPrice()));
+    //   }
+    //   this.redisTemplate.opsForValue().set(stocks, String.valueOf("price"));
+    // }
 
   }
 }

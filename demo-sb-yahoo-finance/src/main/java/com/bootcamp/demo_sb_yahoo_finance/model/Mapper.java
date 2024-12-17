@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
 import com.bootcamp.demo_sb_yahoo_finance.model.dto.StockSymbolDTO;
+import com.bootcamp.demo_sb_yahoo_finance.model.line.Point;
 
 @Component
 public class Mapper {

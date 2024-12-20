@@ -1,5 +1,6 @@
 package com.bootcamp.demo_sb_yahoo_finance.config.Scheduler;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,16 +39,34 @@ public class AppScheduler {
 
   // syntax : (cron = "0 0/1 * * * ?") per minute
   // @Scheduled(cron = "0 0/5 9-16 * * MON-FRI")
-  @Scheduled(fixedRate = 300)
+  @Scheduled(fixedRate = 3000)
   public void saveStockFiveMins() throws JsonProcessingException {
-    List<StockSymbolDTO> stocks = this.stockService.findAllWithCache();
-    if (stocks == null || stocks.size() == 0)
-    return;
+    // List<StockSymbolDTO> stocks = this.stockService.findAllWithCache();
+    // if (stocks == null || stocks.size() == 0)
+    // return;
 
-    List<String> symbols = stocks.stream().map(s -> s.getSymbol()).collect(Collectors.toList());
-    // String[] stockList = new String[]{"0388.HK", "0700.HK", "0005.HK"};
+    // List<String> symbols = stocks.stream().map(s -> s.getSymbol()).collect(Collectors.toList());
+    // // String[] stockList = new String[]{"0388.HK", "0700.HK", "0005.HK"};
 
-    YahooStock yahooStock = this.yahooStockService.getQuote(symbols);
+    // YahooStock yahooStock = this.yahooStockService.getQuote(symbols);
+    // yahooStock.getBody().getResult().forEach(s -> {
+    //   StockEntity stockEntity = this.stockService.findBySymbol(s.getSymbol());
+    //   StockTransEntity stockTransEntity = this.mapper.map(s);
+    //   stockTransEntity.setStock(stockEntity);
+    //   stockTransEntity.setSymbol(stockEntity.getSymbol());
+    //   stockTransEntity.setId(stockEntity.getId());
+    //   stockTransEntity.setTranType(TranType.FIVE_MINUTES.getType());
+    //   this.stockTransRepository.save(stockTransEntity);
+    // });
+
+    String[] stockList = new String[]{"0388.HK", "0700.HK", "0005.HK"};
+    List<StockEntity> entities = Arrays.stream(stockList) //
+    .map(e -> StockEntity.builder() //
+    .symbol(e).build()) //
+    .collect(Collectors.toList());
+    stockService.save(entities);
+
+    YahooStock yahooStock = this.yahooStockService.getQuote(Arrays.asList(stockList));
     yahooStock.getBody().getResult().forEach(s -> {
       StockEntity stockEntity = this.stockService.findBySymbol(s.getSymbol());
       StockTransEntity stockTransEntity = this.mapper.map(s);
@@ -57,6 +76,8 @@ public class AppScheduler {
       stockTransEntity.setTranType(TranType.FIVE_MINUTES.getType());
       this.stockTransRepository.save(stockTransEntity);
     });
+    
+    System.out.println("Save Stock Already!");
 
   }
 }

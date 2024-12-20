@@ -1,11 +1,11 @@
 server:
   port: 8090
 
-api:
-  url:
-    domain: "finance.yahoo.com"
-    endpoint: 
-    0388: "/quote/0388.HK/history/"
+# api:
+#   url:
+#     domain: "finance.yahoo.com"
+#     endpoint: 
+#     0388: "/quote/0388.HK/history/"
 
 spring:
   datasource:
@@ -15,4 +15,4 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create

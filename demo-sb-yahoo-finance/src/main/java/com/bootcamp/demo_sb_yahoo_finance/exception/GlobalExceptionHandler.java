@@ -17,12 +17,4 @@ public class GlobalExceptionHandler {
         .build();
   }
 
-  @ExceptionHandler({Exception.class})
-  @ResponseStatus(HttpStatus.NOT_FOUND) // 404
-  public ErrorResponse handleException() {
-    return ErrorResponse.builder()//
-        .code(ErrorCode.UNKNOWN_ERROR.getCode())//
-        .message(ErrorCode.UNKNOWN_ERROR.getMessage())//
-        .build();
-  }
 }

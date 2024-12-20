@@ -27,7 +27,7 @@ import lombok.Setter;
 //     "regularMarketChangePercent", "bid", "bidSize", "ask", "askSize", "type",
 //     "apiDateTime", "marketUnixTime", "stock"}) // 顯示順序
 
-public class StockPrice implements Serializable {
+public class StockTransEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

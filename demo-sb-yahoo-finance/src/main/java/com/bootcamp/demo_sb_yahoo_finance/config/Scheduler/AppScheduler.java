@@ -1,59 +1,62 @@
 package com.bootcamp.demo_sb_yahoo_finance.config.Scheduler;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
-import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
+import com.bootcamp.demo_sb_yahoo_finance.entity.StockTransEntity;
 import com.bootcamp.demo_sb_yahoo_finance.model.Mapper;
+import com.bootcamp.demo_sb_yahoo_finance.model.YahooStock;
 import com.bootcamp.demo_sb_yahoo_finance.model.dto.StockSymbolDTO;
-import com.bootcamp.demo_sb_yahoo_finance.redis.RedisHelper;
-import com.bootcamp.demo_sb_yahoo_finance.service.StockPriceService;
-import com.bootcamp.demo_sb_yahoo_finance.service.StockSymbolService;
+import com.bootcamp.demo_sb_yahoo_finance.model.line.TranType;
+import com.bootcamp.demo_sb_yahoo_finance.repository.StockTransRepository;
+import com.bootcamp.demo_sb_yahoo_finance.service.StockService;
+import com.bootcamp.demo_sb_yahoo_finance.service.YahooStockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class AppScheduler {
-  @Autowired
-  private StockPriceService stockPriceService;
+  // @Autowired
+  // private RedisTemplate<String, String> redisTemplate;
 
-  @Autowired
-  private StockSymbolService stockSymbolService;
-
-  @Autowired
-  private RedisTemplate<String, String> redisTemplate;
-
-  @Autowired
-  private ObjectMapper objectMapper;
+  // @Autowired
+  // private ObjectMapper objectMapper;
 
   @Autowired
   private Mapper mapper;
 
+  @Autowired
+  private YahooStockService yahooStockService;
+
+  @Autowired
+  private StockService stockService;
+
+  @Autowired
+  private StockTransRepository stockTransRepository;
+
   // syntax : (cron = "0 0/1 * * * ?") per minute
   // @Scheduled(cron = "0 0/5 9-16 * * MON-FRI")
-  @Scheduled(fixedRate = 300_000)
-  public void stockQuote() throws JsonProcessingException {
+  @Scheduled(fixedRate = 300)
+  public void saveStockFiveMins() throws JsonProcessingException {
+    List<StockSymbolDTO> stocks = this.stockService.findAllWithCache();
+    if (stocks == null || stocks.size() == 0)
+    return;
 
-    // String[] symbol = redisHelper.get("STOCK-LIST", String[].class);
-    // List<String> symbols = Arrays.stream(symbol)//
-    //     .collect(Collectors.toList());
-    // stockPriceService.save(symbols);
+    List<String> symbols = stocks.stream().map(s -> s.getSymbol()).collect(Collectors.toList());
+    // String[] stockList = new String[]{"0388.HK", "0700.HK", "0005.HK"};
 
-    String[] stockList = new String[] {"0388.HK", "0700.HK", "0005.HK"};
-    List<StockEntity> stockEntityList = Arrays.stream(stockList)
-        .map(s -> mapper.map(s)).collect(Collectors.toList());
-    this.stockSymbolService.saveAll(stockEntityList);
+    YahooStock yahooStock = this.yahooStockService.getQuote(symbols);
+    yahooStock.getBody().getResult().forEach(s -> {
+      StockEntity stockEntity = this.stockService.findBySymbol(s.getSymbol());
+      StockTransEntity stockTransEntity = this.mapper.map(s);
+      stockTransEntity.setStock(stockEntity);
+      stockTransEntity.setSymbol(stockEntity.getSymbol());
+      stockTransEntity.setId(stockEntity.getId());
+      stockTransEntity.setTranType(TranType.FIVE_MINUTES.getType());
+      this.stockTransRepository.save(stockTransEntity);
+    });
 
-    stockPriceService.save(Arrays.asList(stockList));
-    System.out.println("Success save Stock every 5 mins");
-
-    List<StockSymbolDTO> stocks = this.stockPriceService
-    
   }
 }

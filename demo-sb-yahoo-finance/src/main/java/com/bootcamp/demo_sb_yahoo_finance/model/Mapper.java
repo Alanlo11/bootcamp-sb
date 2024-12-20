@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
-import com.bootcamp.demo_sb_yahoo_finance.entity.StockPrice;
+import com.bootcamp.demo_sb_yahoo_finance.entity.StockTransEntity;
 import com.bootcamp.demo_sb_yahoo_finance.model.dto.StockSymbolDTO;
-import com.bootcamp.demo_sb_yahoo_finance.model.line.Point;
 
 @Component
 public class Mapper {
@@ -25,12 +24,12 @@ public class Mapper {
         .build();
   }
 
-  public StockPrice map(YahooStock.QuoteBody.Result result) {
+  public StockTransEntity map(YahooStock.QuoteBody.Result result) {
     LocalDateTime time = LocalDateTime //
         .ofInstant(Instant.ofEpochSecond(result.getRegularMarketTime()), //
             ZoneId.systemDefault());
 
-    return StockPrice.builder() //
+    return StockTransEntity.builder() //
         .symbol(result.getSymbol()) //
         .ask(result.getAsk()) //
         .markDateTime(time) //

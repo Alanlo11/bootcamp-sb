@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockEntity;
 import com.bootcamp.demo_sb_yahoo_finance.entity.StockTransEntity;
 import com.bootcamp.demo_sb_yahoo_finance.model.dto.StockSymbolDTO;
+import com.bootcamp.demo_sb_yahoo_finance.model.line.Transaction;
 
 @Component
 public class Mapper {
@@ -41,6 +42,13 @@ public class Mapper {
         .bid(result.getBid()) //
         .bidSize(result.getBidSize()) //
         .build();
+  }
+
+  public Transaction map(StockTransEntity stockTransEntity){
+    return Transaction.builder() //
+    .price(stockTransEntity.getMarketPrice()) //
+    .time(stockTransEntity.getMarkDateTime()) //
+    .build();
   }
 
 }

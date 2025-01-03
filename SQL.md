@@ -17,9 +17,9 @@
       - HAVING
     - JOIN
       - LEFT JOIN
-      - INNER JOIN 
+      - INNER JOIN
       - RIGHT JOIN
-      - FULL JOIN 
+      - FULL JOIN
     - UNION , UNION ALL
     - Functions
       - AVG()
@@ -29,9 +29,9 @@
       - MAX()
     - Logics
       - IF : SELECT IF(500<1000 , "YES" , "NO")
-      - CASE WHEN : 
+      - CASE WHEN :
         SELECT Name , Sex ,
-          CASE 
+          CASE
             WHEN age >= 65 THEN 'Elderly'
             ELSE 'Not Elderly'
           END as Age Group

@@ -37,10 +37,15 @@ public class AppRunner implements CommandLineRunner {
   public void run(String... args) throws Exception {
     // 1.clear all data first
     // 2.save stock to db
-    // 3.save stock and price to redis
-    this.stockRepository.deleteAll();
-    this.stockTransRepository.deleteAll();
 
+    this.stockTransRepository.deleteAll();
+    this.stockRepository.deleteAll();
+    // String[] stockList = new String[]{"0388.HK", "0700.HK", "0005.HK"};
+    // List<StockEntity> entities = Arrays.stream(stockList) //
+    // .map(e -> StockEntity.builder() //
+    // .symbol(e).build()) //
+    // .collect(Collectors.toList());
+    // stockService.save(entities);
   }
 
 }

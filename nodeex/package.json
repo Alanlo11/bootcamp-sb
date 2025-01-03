@@ -1,0 +1,21 @@
+{
+  "name": "nodeex",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prisma": "^6.1.0"
+  }
+}

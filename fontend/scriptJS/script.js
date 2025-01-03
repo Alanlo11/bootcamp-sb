@@ -45,3 +45,54 @@ function sum3 (sum, num3){
 sum3(sum,0);// NaN
 
 let um = [1,'gfdg']; // 入面擺咩都得，唔係fix length
+
+let child = {
+  name : "alan",
+  age : 10,
+  "programming language": ["java","js","tss"]
+} //呢個已經係obj
+
+console.log(child["programming language"][0]); // java
+
+for(let key in child){
+  console.log(key)
+} // name,age,pargramming language
+
+// call back function , 姐係method call method
+
+let nums = [1,2,3,4,5,6,7,8,9];
+
+nums.forEach((value, index,array) => {
+  console.log(value, index, array);
+})
+// value = 1, index = 0, array = [1,2,3,4,5,6,7,8,9]
+// value = 2, index = 1, array = [1,2,3,4,5,6,7,8,9]
+// ...
+
+let result = 0;
+nums.forEach((value) => {
+ result += value;
+})
+console.log(result);// 45
+
+let result2 = nums.map((value) => {
+return value * value
+});
+
+console.log(result2); //[ 1,  4,  9, 16, 25, 36, 49, 64, 81]
+
+let filter_result = nums.filter((value) => {
+  if(value >= 5){
+    return true;
+    } else {
+      return false;
+    }
+})
+console.log(filter_result);// [5,6,7,8,9]
+
+class student {
+  constructor(name){
+    this.name = name;
+  }
+}
+

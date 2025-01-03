@@ -66,4 +66,4 @@
       - TABLE
   - DCL(Data Control Language)
     - GRANT
-    - REVOKE 
+    - REVOKE
